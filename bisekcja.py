@@ -9,6 +9,8 @@ class Bisekcja:
         while abs(a - b) > epsilon:
             x1 = (a + b) / 2
 
+            if abs(rownania_obj.rownanie(numer, x1)) < epsilon:
+                return x1
             if x_poprzednie is not None and abs(x1-x_poprzednie) < epsilon:
                 return x1
             elif rownania_obj.rownanie(numer, x1) * rownania_obj.rownanie(numer, a) < 0:
