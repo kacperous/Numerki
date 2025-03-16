@@ -1,6 +1,5 @@
 from zadanie1.bisekcja import Bisekcja
 from siecznych import Siecznych
-from rownania import Rownania
 from rysuj import Wykres
 
 def main():
@@ -9,14 +8,17 @@ def main():
     b = float(input("Podaj b: "))
     epsilon = float(input("Podaj dokładkość (epsilon): "))
 
-    rownania_obj = Rownania()
+    print("\nWybierz wariant stopu dla metody bisekcji:")
+    print("A - Warunek stopu: |x_n - x_{n-1}| < epsilon")
+    print("B - Warunek stopu: maksymalna liczba iteracji")
+    wariant = input("Twój wybór (A/B): ").upper()
 
-    if rownania_obj.rownanie(numer, a) * rownania_obj.rownanie(numer, b) >= 0:
-        print("Błąd: Funkcja nie zmienia znaku na podanym przedziale dla metody bisekcji.")
-        return
+    max_iter = 100
+    if wariant == 'B':
+        max_iter = int(input("Podaj maksymalną liczbę iteracji: "))
 
-    bisekcja = Bisekcja.metodaBisekcji(numer, a, b, epsilon)
-    sieczne = Siecznych.siecznych(a, b, numer)
+    bisekcja = Bisekcja.metodaBisekcji(numer, a, b, epsilon, wariant, max_iter)
+    sieczne = Siecznych.siecznych(a, b, numer, epsilon, wariant, max_iter)
 
     print(f"Znalezione miejsce zerowe metodą bisekcji: {bisekcja}")
     print(f"Znalezione miejsce zerowe metodą siecznych: {sieczne}")
