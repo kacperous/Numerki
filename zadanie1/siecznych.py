@@ -1,4 +1,4 @@
-from zadanie1.rownania import Rownania
+from rownania import Rownania
 
 class Siecznych:
     @staticmethod

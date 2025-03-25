@@ -1,4 +1,4 @@
-from zadanie1.bisekcja import Bisekcja
+from bisekcja import Bisekcja
 from siecznych import Siecznych
 from rysuj import Wykres
 

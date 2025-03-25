@@ -17,6 +17,8 @@ class Bisekcja:
             iteracje+=1
             if wariant == 'B' and iteracje >= max_iter:
                 return x1
+            if rownania_obj.rownanie(numer, x1) == 0:
+                return x1
             elif rownania_obj.rownanie(numer, x1) * rownania_obj.rownanie(numer, a) < 0:
                 b = x1
             else:
