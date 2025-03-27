@@ -1,49 +1,47 @@
 import numpy as np
 
-def calculate(A, b):
-    matrixA = A.copy()
-    matrixB = b.copy()
-    n = len(matrixA)
+def gauss_seidel(A, b, epsilon=None, max_iteracji=None):
+    n = len(A)
+    x = np.zeros(n)
 
-    print("-------------------")
-    print("Macierz początkowa:")
-    print(matrixA)
-    print("Wektor początkowy:")
-    print(matrixB)
+    diag_dominacja = True
+    for i in range(n):
+        if abs(A[i, i]) <= sum(abs(A[i, j]) for j in range(n) if j != i):
+            diag_dominacja = False
+            break
 
-    numer = 0
-    value = 0
-    multiplier = []
+    if not diag_dominacja:
+        print("Ostrzeżenie: Macierz może nie spełniać warunku zbieżności metody Gaussa-Seidla.")
 
-    for i in range(n - 1):
-        for k in range(i + 1, n):
-            print(matrixA[i][i], matrixA[k][i])
-            if matrixA[k][i] != 0:
-                value = matrixA[k][i] / matrixA[i][i]
-                multiplier.append(float(value))
-                print(f"Appending {value:.4f} to multiplier")
+    iteracje = 0
+    zbieznosc = False
 
-                for j in range(i, n):
-                    matrixA[k][j] -= value * matrixA[i][j]
+    while True:
+        x_poprzednie = x.copy()
 
-                matrixB[k][0] -= value * matrixB[i][0]
+        for i in range(n):
+            suma1 = sum(A[i, j] * x[j] for j in range(i))
+            suma2 = sum(A[i, j] * x_poprzednie[j] for j in range(i+1, n))
 
-        print("Macierz po kroku eliminacji:")
-        print(matrixA)
-        print("Wektor b po kroku eliminacji:")
-        print(matrixB)
-        print("-------------------")
+            if A[i, i] == 0:
+                print("Błąd: Element na przekątnej jest równy zero.")
+                return x, iteracje, False
 
-    print("Lista mnożników:")
-    print(multiplier)
+            x[i] = (b[i] - suma1 - suma2) / A[i, i]
 
-    x = np.zeros((n, 1))
-    for i in range(n - 1, -1, -1):
-        suma = 0
-        for j in range(i + 1, n):
-            suma += matrixA[i][j] * x[j][0]
-        x[i][0] = (matrixB[i][0] - suma) / matrixA[i][i]
+        iteracje += 1
 
-    print("Rozwiązania:")
-    print(x)
-    return x
+        blad = np.linalg.norm(x - x_poprzednie)
+
+        if epsilon is not None and blad < epsilon:
+            zbieznosc = True
+            break
+
+        if max_iteracji is not None and iteracje >= max_iteracji:
+            break
+
+        if np.isnan(blad) or np.isinf(blad):
+            print("Błąd: Metoda nie zbiega.")
+            return x, iteracje, False
+
+    return x, iteracje, zbieznosc

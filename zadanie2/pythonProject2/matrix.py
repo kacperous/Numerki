@@ -41,10 +41,10 @@ def wybierz_macierz():
                         [0, 1, 0]], dtype=float),
               np.array([[3], [7], [5]], dtype=float)),
 
-        "h": (np.array([[10, -5, 1],
-                        [4, -7, 2],
-                        [5, -1, 4]], dtype=float),
-              np.array([[3], [-4], [19]], dtype=float)),
+        "h": (np.array([[10., -5., 1.],
+                        [4., -7., 2.],
+                        [5., -1., 4.]], dtype=float),
+              np.array([[3.], [-4.], [19.]], dtype=float)),
 
         "i": (np.array([[6, -4, 2],
                         [-5, 5, 2],
